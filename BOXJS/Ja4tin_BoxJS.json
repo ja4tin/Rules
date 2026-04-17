@@ -1,33 +1,31 @@
 {
-      "id": "Ja4tin.app.sub",
-      "name": "Ja4tin 脚本订阅",
-      "description": "该订阅兼容BoxJs以及QX Gallery",
-      "author": "@Ja4tin",
-      "icon": "https://avatars2.githubusercontent.com/u/53217160",
-      "repo": "https://github.com/ja4tin/Rules",
-      "apps": [
-          {
-              "id": "JustinYe.NioCheckin",
-              "name": "蔚来 App 自动签到",
-              "keys": ["nio_auth_token"],
-              "settings": [
-                  {
-                      "id": "nio_auth_token",
-                      "name": "Authorization Token",
-                      "val": "",
-                      "type": "text",
-                      "desc": "这里存储抓取到的 Bearer 开头的 Token"
-                  }
-              ],
-              "script": "https://raw.githubusercontent.com/ja4tin/Rules/refs/heads/main/BOXJS/nio/nio_checkin.js",
-              "Author": "Ja4tin",
-              "repo":"https://github.com/ja4tin/Rules",
-              "icons": [
-                  "https://raw.githubusercontent.com/NobyDa/mini/master/Color/ctrip.png"
-              ]
-            }
-          ]
-
+  "id": "JustinYe.Extra.Sub",
+  "name": "JustinYe 的脚本订阅",
+  "author": "JustinYe",
+  "icon": "https://avatars2.githubusercontent.com/u/53217160",
+  "repo": "https://github.com/ja4tin/Rules",
+  "apps": [
+    {
+      "id": "JustinYe.NioCheckin",
+      "name": "蔚来 App 自动签到",
+      "keys": ["nio_auth_token"],
+      "descs_html": [
+        "请先在 Surge 中配置重写规则，然后手动进入蔚来 App 签到页面获取 Token。"
+      ],
+      "settings": [
+        {
+          "id": "nio_auth_token",
+          "name": "Authorization Token",
+          "val": "",
+          "type": "text",
+          "desc": "这里存储抓取到的 Bearer 开头的 Token"
+        }
+      ],
+      "author": "@JustinYe",
+      "icon": "https://raw.githubusercontent.com/Orz-3/mini/master/Color/nio.png",
+      "script": "https://raw.githubusercontent.com/ja4tin/Rules/refs/heads/main/BOXJS/nio/nio_checkin.js"
+    }
+  ]
 }
 
 
