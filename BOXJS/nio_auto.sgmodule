@@ -1,6 +1,6 @@
 #!name=蔚来自动签到
-#!desc=【JustinYe】自动抓取蔚来 App Token 并执行每日签到。不再需要 BoxJs。
-#!category=JustinYe
+#!desc=自动抓取蔚来 App Token 并执行每日签到。不再需要 BoxJs。
+#!category=Ja4tin
 #!system=ios
 
 [Script]

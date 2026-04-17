@@ -1,6 +1,6 @@
 /*
- * 蔚来 App 自动签到脚本 (Surge 原生版)
- * * 1. 自动抓取：开启模块后，进入蔚来 App 签到页面即可自动获取 Token。
+ * 蔚来 App 自动签到脚本
+ * 1. 自动抓取：开启模块后，进入蔚来 App 签到页面即可自动获取 Token。
  * 2. 自动签到：每天根据 Cron 表达式自动运行。
  */
 
@@ -65,7 +65,7 @@ function runCheckin() {
 
       // 状态判断：根据蔚来 API 常见返回码
       if (res.code === 0 || res.result === 'success') {
-        $.msg($.name, "✅ 签到成功", `奖励已入账，记得明天再来哦！`);
+        $.msg($.name, "✅ 签到成功", `记得明天再来哦！`);
       } else if (data.includes("已签到") || res.code === 4001) {
         $.msg($.name, "ℹ️ 重复签到", "今天已经打过卡了，无需重复执行。");
       } else if (res.code === 401) {
