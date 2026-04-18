@@ -1,0 +1,29 @@
+{
+  "id": "Ja4tin.BoxJS",
+  "name": "Ja4tin 的脚本订阅",
+  "author": "Ja4tin",
+  "repo": "https://github.com/ja4tin/Rules",
+  "apps": [
+    {
+      "id": "Ja4tin.NioCheckin",
+      "name": "蔚来 App 自动签到",
+      "keys": ["nio_auth_token"],
+      "descs_html": [
+        "功能：实现蔚来 App 自动签到。",
+        "配置：请先手动进入蔚来 App 签到页面，Surge 会自动抓取并存入 Token。"
+      ],
+      "settings": [
+        {
+          "id": "nio_auth_token",
+          "name": "Authorization Token",
+          "val": "",
+          "type": "text",
+          "desc": "抓取到的 Token，自动保存，无需手动修改"
+        }
+      ],
+      "author": "@Ja4tin",
+      "icon": "https://raw.githubusercontent.com/Orz-3/mini/master/Color/nio.png",
+      "script": "https://raw.githubusercontent.com/ja4tin/Rules/refs/heads/main/BOXJS/nio/nio_checkin2.js"
+    }
+  ]
+}
