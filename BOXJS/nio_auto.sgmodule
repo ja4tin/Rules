@@ -1,14 +1,14 @@
-#!name=蔚来自动签到
-#!desc=自动抓取蔚来 App Token 并执行每日签到。不再需要 BoxJs。
-#!category=Ja4tin
+#!name=蔚来全自动任务
+#!desc=自动抓取 Token 并每天 8:30 自动执行蔚来签到与浏览商城任务。首次使用请先前往蔚来 App 的签到页面抓取 Token。
+#!author=Ja4tin
 #!system=ios
 
 [Script]
-# 自动抓取 Token (每次打开签到页时触发)
-蔚来抓取Token = type=http-request,pattern=^https:\/\/gateway-front-external\.nio\.com\/.*checkin,requires-body=0,script-path=https://raw.githubusercontent.com/ja4tin/Rules/refs/heads/main/BOXJS/nio/nio_checkin.js
+# 【间谍】抓取 Token 规则
+蔚来抓取Token = type=http-request,pattern=^https:\/\/gateway-front-external\.nio\.com\/moat\/.*\/checkin,requires-body=1,max-size=0,script-path=你的JS链接
 
-# 每日定时签到 (每天上午 8:30 执行)
-蔚来每日签到 = type=cron,cronexp="30 8 * * *",wake-system=1,timeout=60,script-path=https://raw.githubusercontent.com/ja4tin/Rules/refs/heads/main/BOXJS/nio/nio_checkin.js
+# 【打工人】定时执行规则 (每天上午 8:30)
+蔚来定时任务 = type=cron,cronexp="30 8 * * *",wake-system=1,script-path=你的JS链接
 
 [MITM]
 hostname = %APPEND% gateway-front-external.nio.com
