@@ -1,15 +1,15 @@
 #!name=蔚来签到
-#!desc=默认通过 MITM 自动抓取 Token。如果自动抓取失效，可点击“编辑参数”，手动填入 Token 作为应急备用。
+#!desc=默认自动抓取 Token。如果某天失效，请长按本模块点击“编辑参数”，在 ManualToken 中粘贴你的最新 Token 应急。
 #!author=Ja4tin
 #!system=ios
-#!argument=ManualToken=string,"",desc="【备用通道】如果自动抓取失效，请在此粘贴 Token"
+#!arguments=ManualToken=
 
 [Script]
-# 【通道一：自动抓包】
+# 【通道一：自动抓包Token】
 蔚来抓取Token = type=http-request,pattern=^https:\/\/gateway-front-external\.nio\.com\/moat\/.*\/checkin,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/ja4tin/Rules/refs/heads/main/BOXJS/nio/nio_task.js
 
-# 【通道二：签到脚本】(通过 argument 接收可能的手动输入)
-蔚来定时任务 = type=cron,cronexp="30 8 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/ja4tin/Rules/refs/heads/main/BOXJS/nio/nio_task.js,argument=%{ManualToken}
+# 【通道二：签到脚本】(通过 %ManualToken% 接收参数文本替换)
+蔚来定时任务 = type=cron,cronexp="30 8 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/ja4tin/Rules/refs/heads/main/BOXJS/nio/nio_task.js,argument=%ManualToken%
 
 [MITM]
 hostname = %APPEND% gateway-front-external.nio.com

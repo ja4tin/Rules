@@ -1,5 +1,5 @@
 /**
- * 蔚来全自动任务 (Surge 终极双保险版)
+ * 蔚来签到模块
  * 逻辑：优先使用模块面板的手动参数 -> 其次使用自动抓取的持久化数据
  */
 const KEY_TOKEN = "nio_auth_token_surge_native";
@@ -10,29 +10,29 @@ if (typeof $request !== 'undefined') {
     const auth = $request.headers['Authorization'] || $request.headers['authorization'];
     if (auth) {
         $persistentStore.write(auth, KEY_TOKEN);
-        $notification.post(APP_NAME, "✅ 自动抓取成功", "最新 Token 已入库，将用于每日自动签到");
+        $notification.post(APP_NAME, "✅ 自动抓取成功", "最新 Token 已入库，将用于每日自动执行");
     }
     $done({});
 } else {
-    // 【读取Key_Token】执行任务
+    // 【获取Key_Token】执行任务
     let token = "";
     
-    // 通道 A：读取模块面板的手动输入
+    // 通道 A：读取模块面板的手动输入 (Surge 替换 %ManualToken%)
     const manualToken = typeof $argument !== 'undefined' ? $argument : "";
-    // 通道 B：读取间谍抓取的自动数据
+    // 通道 B：读取 Surge 持久化存储的自动抓包数据
     const autoToken = $persistentStore.read(KEY_TOKEN);
 
-    // 【核心双保险逻辑】：手动填了就用手动的，手动没填就用自动的
+    // 【核心逻辑】：如果手动填了 Bearer 就用手动的，没填就用自动抓的
     if (manualToken && manualToken.includes("Bearer")) {
         token = manualToken;
-        console.log("使用来源：模块手动参数");
+        console.log("运行来源：用户手动填写的模块参数");
     } else if (autoToken && autoToken.includes("Bearer")) {
         token = autoToken;
-        console.log("使用来源：Surge 自动抓取缓存");
+        console.log("运行来源：Surge 后台自动抓取的缓存");
     }
 
     if (!token) {
-        $notification.post(APP_NAME, "❌ 任务失败", "未找到有效 Token。请进入蔚来 App 自动抓取，或在模块中手动填入。");
+        $notification.post(APP_NAME, "❌ 任务失败", "未找到 Token。请进入蔚来 App 自动抓取，或长按模块“编辑参数”填入");
         $done();
     } else {
         runCheckIn(token);
