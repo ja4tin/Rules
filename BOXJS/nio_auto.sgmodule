@@ -1,5 +1,5 @@
 #!name=蔚来签到
-#!desc=支持双保险：优先使用自动抓包数据，失效时支持手动传入 Token。详细运行情况请查看 Surge 工具中的“脚本日志”。
+#!desc=优先使用自动抓包数据，失效时支持手动传入Token。详细运行情况请查看 Surge 工具中的“脚本日志”。
 #!author=Ja4tin
 #!system=ios
 #!arguments = ManualToken:""
@@ -14,6 +14,3 @@
 
 [MITM]
 hostname = %APPEND% gateway-front-external.nio.com
-
-
-# https://raw.githubusercontent.com/ja4tin/Rules/refs/heads/main/BOXJS/nio/nio_task.js
