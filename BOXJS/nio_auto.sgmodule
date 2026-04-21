@@ -1,9 +1,13 @@
-#!name=蔚来签到
-#!desc=优先使用自动抓包数据，失效时支持手动传入Token。详细运行情况请查看 Surge 工具中的“脚本日志”。
+#!name=💎 蔚来每日签到
+#!desc=优先使用自动抓包数据，失效时支持手动传入Token。\n1.自动每日打卡\n2.自动完成浏览商城任务\n详细运行情况请查看工具-日志。
 #!author=Ja4tin
+#!homepage = https://github.com/ja4tin/Rules/tree/main/BOXJS
+#!icon=https://raw.githubusercontent.com/Orz-3/mini/master/Color/nio.png
+#!category = ★ Ja4tin
+#!date = 2026-04-21 10:51:09
 #!system=ios
-#!arguments = ManualToken:""
-#!arguments-desc = ManualToken: [备用通道] 如果自动抓取失效，请在此粘贴你的最新 Token（平时请保持留空）。
+#!arguments = ManualToken:"Bea..."
+#!arguments-desc = ManualToken: [备用通道]\n    ├ 如果自动抓取失效，请手动粘贴你的最新Token\n    ├ Token格式为：Bearer......=\n    └ （平时请保持留空）。
 
 [Script]
 # 【通道一：自动抓包】

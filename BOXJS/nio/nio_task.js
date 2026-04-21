@@ -8,7 +8,7 @@ console.log("🚀 [蔚来签到脚本] 开始运行...");
 
 if (typeof $request !== 'undefined') {
     // ==========================================
-    // 间谍模式：抓取 Token
+    // 抓取 Token:
     // ==========================================
     console.log("🕵️ [抓包] 检测到匹配的蔚来网络请求...");
     const auth = $request.headers['Authorization'] || $request.headers['authorization'];
@@ -29,7 +29,7 @@ if (typeof $request !== 'undefined') {
 
 } else {
     // ==========================================
-    // 打工人模式：执行任务
+    // 执行任务:
     // ==========================================
     console.log("👷 [任务] 触发定时/手动执行...");
     let token = "";
@@ -108,7 +108,7 @@ function runMallTask(token, checkInStatus) {
             console.log("⬇️ [商城] 服务器返回响应: " + data);
             try {
                 const res = JSON.parse(data);
-                if (res.result_code === 'success') mallStatus = "✅ 成功获得积分";
+                if (res.result_code === 'success') mallStatus = "✅ 成功打卡";
                 else if (data.includes("finished") || data.includes("上限")) mallStatus = "ℹ️ 任务已达上限";
                 else mallStatus = `⚠️ 异常 (${res.message || "未知"})`;
             } catch (e) { 
