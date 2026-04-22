@@ -90,10 +90,49 @@ function runCheckIn(token) {
 }
 
 // ==========================================
-// 任务 2：浏览商城 (Task ID: 7403)
+// 任务 2：发送浏览商城动作
 // ==========================================
 function runMallTask(token, checkInStatus) {
-    console.log("▶️ [商城] 发送浏览商城任务请求...");
+    console.log("▶️ [商城] 尝试发送浏览动作事件 (测试重放漏洞)...");
+    
+    const actionUrl = `https://app.nio.com/n/c/app/event/sync?app_ver=6.4.1&lang=zh_cn&region=cn&timestamp=1776821325&device_id=9086b1d812e442f8b55d53416978d9f9&app_id=10002&sign=10fa0307c0525e662c97d7ef12237248`;
+    
+    // 之前抓到的请求体
+    const actionBody = JSON.stringify({
+        "scene_code": "browse_product",
+        "time": 1776821325118,
+        "biz_data": {
+            "sku_code": "M8050817",
+            "biz_code": "PT003",
+            "item_code": "TG20260410000361"
+        }
+    });
+
+    $httpClient.post({
+        url: actionUrl,
+        headers: { 
+            'Authorization': token, 
+            'Content-Type': 'application/json', 
+            // User-Agent 伪装
+            'User-Agent': 'NextevCar/6.4.1 (com.do1.WeiLaiApp; build:2593; iOS 26.4.1) Alamofire/5.9.1' 
+        },
+        body: actionBody
+    }, (err, resp, data) => {
+        if (err) {
+            console.log("❌ [商城-动作] 请求失败: " + err);
+        } else {
+            console.log("⬇️ [商城-动作] 服务器返回: " + data);
+        }
+        // 动作发完后，立刻去查进度，看看骗过去没有
+        checkMallStatus(token, checkInStatus);
+    });
+}
+
+// ==========================================
+// 任务 3：检查商城任务是否完成
+// ==========================================
+function checkMallStatus(token, checkInStatus) {
+    console.log("▶️ [商城] 正在查询任务实际进度...");
     const req = {
         url: `https://gateway-front-external.nio.com/moat/10086/n/a/app/bs/csd-task/in/v2/welfare/task/schedule?app_id=10086`,
         headers: { 'Authorization': token, 'Content-Type': 'application/json', 'User-Agent': 'NIOAppCN/6.4.1 (iPhone; iOS 18.7)' },
@@ -102,23 +141,25 @@ function runMallTask(token, checkInStatus) {
     
     $httpClient.post(req, (err, resp, data) => {
         let mallStatus = "未知";
-        if (err) {
-            console.log("❌ [商城] 网络请求失败: " + err);
-        } else {
-            console.log("⬇️ [商城] 服务器返回响应: " + data);
+        if (!err) {
+            console.log("⬇️ [商城-查询] 服务器返回: " + data);
             try {
                 const res = JSON.parse(data);
-                if (res.result_code === 'success') mallStatus = "✅ 成功打卡";
-                else if (data.includes("finished") || data.includes("上限")) mallStatus = "ℹ️ 任务已达上限";
-                else mallStatus = `⚠️ 异常 (${res.message || "未知"})`;
+                // 关键判断：
+                if (res.data && res.data[0] && res.data[0].today_check_in === true) {
+                    mallStatus = "✅ 成功获得积分";
+                } else if (data.includes("finished") || data.includes("上限")) {
+                    mallStatus = "ℹ️ 任务已达上限";
+                } else {
+                    mallStatus = "⚠️ 动作已执行，但未判定为完成";
+                }
             } catch (e) { 
                 mallStatus = "❌ 解析失败";
-                console.log("❌ [商城] JSON 解析失败");
             }
         }
         
         console.log("🎉 [完成] 所有任务流执行完毕。");
-        $notification.post(APP_NAME, "🎉 每日任务完毕", `【签到】: ${checkInStatus}\n【商城】: ${mallStatus}`);
+        $notification.post("蔚来任务", "🎉 每日任务完毕", `【签到】: ${checkInStatus}\n【商城】: ${mallStatus}`);
         $done();
     });
 }
